@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def get_historical_data() -> dict[str, int]:
+    # It's better to get this data from Jira, but I hand-counted
     return {
         '09/24/2025':3,
         '09/25/2025':0,
