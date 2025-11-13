@@ -24,6 +24,25 @@ def plot_results(results: np.ndarray, save_path="velocity_estimation_results.png
     plt.savefig(save_path)
     plt.show()
 
+def plot_with_risk(results: np.ndarray, save_path="velocity_estimation_results_with_risk.png"):
+    bins = max(10, len(results) // 2500)
+    fig, ax = plt.subplots()
+    counts, bin_edges, _ = ax.hist(results, bins=bins, color="#4C72B0", edgecolor="black")
+    percentiles = [50, 95]
+    vals = np.percentile(results, percentiles)
+
+    ymax = counts.max() if counts.size else 1
+    for pct, val in zip(percentiles, vals):
+        ax.axvline(val, color="lawngreen", linestyle="--", linewidth=2, alpha=0.9)
+        ax.text(val, ymax * 0.92, f"{pct}% ≤ {val:.0f}", color="darkgreen",
+                ha="center", va="top", fontsize=9, bbox=dict(facecolor="white", alpha=0.75, edgecolor="none"))
+
+    ax.set_title("Velocity Estimation MCS results (with risk percentiles)")
+    ax.set_xlabel("Points completed")
+    ax.set_ylabel("Frequency")
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.show()
 
 if __name__ == "__main__":
     num_simulations = 100000
@@ -35,6 +54,7 @@ if __name__ == "__main__":
     print('first simulation', simulation[0])
     print(results[0])
     plot_results(results)
+    plot_with_risk(results)
 
 
 

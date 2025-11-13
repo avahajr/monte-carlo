@@ -25,7 +25,7 @@ def plot_historical_data(df: pd.DataFrame, save_path="story_durations.png"):
     plt.show()
 
 
-def plot_results(results: np.ndarray, stories_in_epic: int, save_path="velocity_estimation_results.png"):
+def plot_results(results: np.ndarray, stories_in_epic: int, save_path="t-shirt-estimation_results.png"):
     plt.hist(results, color='darkred', bins=len(results) // 2500, edgecolor="black")
     plt.title(f"T-shirt sizing MCS results ({stories_in_epic} stories in epic)")
     plt.xlabel("Days needed")
@@ -34,6 +34,25 @@ def plot_results(results: np.ndarray, stories_in_epic: int, save_path="velocity_
     plt.savefig(save_path)
     plt.show()
 
+def plot_with_risk(results: np.ndarray, save_path="t_shirt_estimation_results_with_risk.png"):
+    bins = max(10, len(results) // 2500)
+    fig, ax = plt.subplots()
+    counts, bin_edges, _ = ax.hist(results, bins=bins, color="darkred", edgecolor="black")
+    percentiles = [50, 95]
+    vals = np.percentile(results, percentiles)
+
+    ymax = counts.max() if counts.size else 1
+    for pct, val in zip(percentiles, vals):
+        ax.axvline(val, color="lawngreen", linestyle="--", linewidth=2, alpha=0.9)
+        ax.text(val, ymax * 0.92, f"{pct}% ≤ {val:.0f}", color="darkgreen",
+                ha="center", va="top", fontsize=9, bbox=dict(facecolor="white", alpha=0.75, edgecolor="none"))
+
+    ax.set_title("T-shirt Estimation MCS results (with risk percentiles)")
+    ax.set_xlabel("Points completed")
+    ax.set_ylabel("Frequency")
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.show()
 
 if __name__ == "__main__":
     num_simulations = 100000
@@ -48,3 +67,4 @@ if __name__ == "__main__":
     print('Days needed in the first simulation:', simulations[0])
 
     plot_results(results, stories_in_epic)
+    plot_with_risk(results)
