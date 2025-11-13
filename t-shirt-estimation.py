@@ -48,7 +48,7 @@ def plot_with_risk(results: np.ndarray, save_path="t_shirt_estimation_results_wi
                 ha="center", va="top", fontsize=9, bbox=dict(facecolor="white", alpha=0.75, edgecolor="none"))
 
     ax.set_title("T-shirt Estimation MCS results (with risk percentiles)")
-    ax.set_xlabel("Points completed")
+    ax.set_xlabel("Days needed")
     ax.set_ylabel("Frequency")
     plt.tight_layout()
     plt.savefig(save_path)
