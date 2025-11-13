@@ -38,7 +38,7 @@ def plot_with_risk(results: np.ndarray, save_path="t_shirt_estimation_results_wi
     bins = max(10, len(results) // 2500)
     fig, ax = plt.subplots()
     counts, bin_edges, _ = ax.hist(results, bins=bins, color="darkred", edgecolor="black")
-    risk_levels = {5: "Low", 50: "Medium", 95: "High"}
+    risk_levels = {5: "High", 50: "Medium", 95: "Low"}
     vals = np.percentile(results, list(risk_levels.keys()))
 
     ymax = counts.max() if counts.size else 1
